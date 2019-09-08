@@ -22,4 +22,27 @@ class Solution:
                 h[num] = i
             else:
                 return [h[n], i]
+                
+                
+                
+                
 '''
+###modified
+class Solution:
+    def twoSum(self, nums, target):
+        """
+        :type nums: List[int]
+        :type target: int
+        :rtype: List[int]
+        """
+        dict = {}
+        result = []
+        for i in range(0,len(nums)):
+            temp = target - nums[i]
+            if nums[i] not in dict:
+                dict[temp] = i
+            else:
+                result.append(dict[nums[i]])
+                result.append(i)
+                return result
+        
