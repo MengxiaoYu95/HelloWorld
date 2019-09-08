@@ -13,3 +13,13 @@ class Solution:
                     result.append(i)
                     result.append(j)
                     return result
+
+'''
+        h = {}
+        for i, num in enumerate(nums):  #didn't know enumerate before
+            n = target - num
+            if n not in h:
+                h[num] = i
+            else:
+                return [h[n], i]
+'''
