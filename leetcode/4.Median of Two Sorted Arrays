@@ -1,1 +1,70 @@
 #start at 11 Sep 6.45
+
+#first edition end at 11 Sep 8.19
+
+class Solution:
+    def findMedianSortedArrays(self, nums1: List[int], nums2: List[int]) -> float:
+        length = len(nums1) + len(nums2)
+        flag = 0
+        i = 0
+        j = 0
+        if nums1 == []:
+            nums1.append(nums2[-1])
+        elif nums2 == []:
+            nums2.append(nums1[-1])
+        else:
+            nums1.append(nums2[-1]+1)
+            nums2.append(nums1[-2]+1)
+        if(length%2 == 0):
+            a = b = 0
+            while flag < length/2:
+                if nums1[i] < nums2[j]:
+                    a = nums1[i]
+                    i += 1
+                else:
+                    a = nums2[j]
+                    j += 1
+                flag += 1
+            print(i,j)
+           
+            if nums1[i] < nums2[j]: 
+                    b = nums1[i]
+                    i += 1
+            else:
+                b = nums2[j]
+                j += 1
+            result = (a+b)/2
+            print(0)
+        else:
+            a = 0
+            while flag <= (length-1)/2:
+                if nums1[i] < nums2[j]:
+                    a = nums1[i]
+                    i += 1
+                else:
+                    a = nums2[j]
+                    j += 1
+                flag += 1
+            result = a
+            print(1)
+        return result
+        '''
+        newNums = nums1 + nums2
+
+        newNums.sort()
+
+        value = len(newNums)
+
+        if (value % 2) == 0:
+            num1 = newNums[value//2 - 1]
+            num2 = newNums[value//2]
+            return (num1 + num2)/2
+        else:
+            return float(newNums[value//2])
+            #48ms
+        
+        
+        
+        Runtime: 108 ms, faster than 71.49% of Python3 online submissions for Median of Two Sorted Arrays.
+Memory Usage: 14.2 MB, less than 5.71% of Python3 online submissions for Median of Two Sorted Arrays.
+'''
