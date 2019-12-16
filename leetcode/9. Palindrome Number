@@ -1,0 +1,19 @@
+class Solution {
+public:
+    bool isPalindrome(int x) {
+        if (x < 0) return false;
+        int y = x;
+        long int temp = 0;
+        while (x != 0){
+
+            temp = temp*10 + x%10;
+            x /= 10;
+        }
+        if (temp == y){
+            return true;
+        }
+        return false;
+    }
+};
+
+实际上只需要求后一半的逆即可
