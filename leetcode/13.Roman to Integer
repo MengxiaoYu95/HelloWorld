@@ -1,0 +1,51 @@
+        for ( std::string::iterator rit=s.rbegin(); rit!=s.rend(); ++rit){
+            temp = my_map[*it];
+            if (my_map[*it] < my_map[last_symbol]){
+
+                sum -= symbols[temp];
+            }
+            else {
+                sum += symbols[temp];
+            }
+            last_symbol = *it;
+            
+        }
+        
+        _________________________
+class Solution {
+  public:
+      int romanToInt(string s) {
+          int symbols[] = {1,5,10,50,100,500,1000};
+          std::map<char,int> my_map;
+          my_map['I'] = 0;
+          my_map['V'] = 1;
+          my_map['X'] = 2;
+          my_map['L'] = 3;
+          my_map['C'] = 4;
+          my_map['D'] = 5;
+          my_map['M'] = 6;
+
+          int sum = 0;
+          int temp = 0;
+          char last_symbol = 'I';
+          char current_symbol;
+          while (! s.empty()){  //判断string是否为空用.empty()不是 == NULL
+              current_symbol = s.back();
+              temp = my_map[current_symbol];
+              std::cout << temp <<'\n';
+              if (my_map[last_symbol] > my_map[current_symbol]){
+                  sum -= symbols[temp];
+              }
+              else{
+                  sum += symbols[temp];
+              }
+              last_symbol = current_symbol;
+              s.pop_back();
+          }
+          return sum;
+
+      }
+};
+Runtime: 40 ms, faster than 5.08% of C++ online submissions for Roman to Integer.
+Memory Usage: 10.7 MB, less than 20.59% of C++ online submissions for Roman to Integer.
+卧槽真尼玛的慢啊。。。。。。
