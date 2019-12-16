@@ -17,3 +17,25 @@ public:
 };
 
 实际上只需要求后一半的逆即可
+
+
+class Solution {
+public:
+    bool isPalindrome(int x) {
+        if (x < 0 || (x % 10 == 0 && x != 0)) return false;        //考虑末位为0的情况->若末位为0，则首位为0，只有0满足条件
+        long int temp = 0;
+        while (temp < x){    
+
+            temp = temp*10 + x%10;
+            x /= 10;
+            
+        }
+        
+        if ( temp == x || temp/10 == x){
+            return true;
+        }
+        std::cout<<temp<<" "<<x;
+        return false;
+
+    }
+};
