@@ -1,0 +1,55 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* rotateRight(ListNode* head, int k) {
+        
+        if (! head || ! head->next) return head;
+        
+        ListNode* current_node;
+        ListNode* break_point;
+        ListNode* tail;
+        current_node = head;
+        break_point = head;
+        int length = 1;
+        
+        while (current_node->next){
+            current_node = current_node->next;
+            length += 1;
+        }
+        
+        current_node->next = head;
+        
+        tail = current_node;
+        
+        current_node = current_node->next;
+        
+        if (k > length) k = k%length;
+        
+        std::cout << k << ' ' << length;
+        
+        for( int i=0; i<k ; i++){
+            current_node = current_node->next;
+        }
+        
+        while (current_node != tail){
+            current_node = current_node->next;
+            break_point = break_point->next;
+        }
+        current_node = break_point->next;
+        break_point->next = NULL;
+        
+        return current_node;
+    }
+};
+
+
+Runtime: 8 ms, faster than 82.25% of C++ online submissions for Rotate List.
+Memory Usage: 8.8 MB, less than 97.62% of C++ online submissions for Rotate List.
+这题也太傻逼了。。。
