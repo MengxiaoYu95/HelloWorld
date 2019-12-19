@@ -1,0 +1,40 @@
+class Solution {
+public:
+    int maxSubArray(vector<int>& nums) {
+        
+        std::vector<int> pending;
+        
+        std::vector<int> sums;
+        
+        int largest_sum = INT_MIN;
+        
+        int largest_number = INT_MIN;
+        
+        for(auto it = nums.begin(); it != nums.end(); it++){
+            if (*it > largest_number){
+                largest_number = *it;
+            }
+            pending = sums;
+            sums.clear();
+            if (*it > 0){
+                sums.push_back(*it);
+            }
+            for(auto pit = pending.begin(); pit != pending.end(); pit++){
+                *pit += *it;
+
+                if (*pit > 0){
+                    sums.push_back(*pit);
+                }
+                
+                if (*pit > largest_sum ){
+                    largest_sum = *pit;
+                }
+                std::cout << *pit << '\n';
+                
+            }
+
+        }
+        
+        return largest_sum > largest_number ? largest_sum : largest_number;
+    }
+};
