@@ -38,3 +38,6 @@ public:
         return largest_sum > largest_number ? largest_sum : largest_number;
     }
 };
+Runtime: 56 ms, faster than 5.37% of C++ online submissions for Maximum Subarray.
+Memory Usage: 10 MB, less than 5.88% of C++ online submissions for Maximum Subarray.
+
