@@ -41,3 +41,30 @@ public:
 Runtime: 56 ms, faster than 5.37% of C++ online submissions for Maximum Subarray.
 Memory Usage: 10 MB, less than 5.88% of C++ online submissions for Maximum Subarray.
 
+
+class Solution {
+public:
+    int maxSubArray(vector<int>& nums) {
+        if (1 == nums.size()) {
+            return nums[0];
+        }
+        
+        int lastValue = nums[0];
+        int maxValue = lastValue;
+        for (int i = 1; i < nums.size(); i++) {
+            if (lastValue <= 0) {
+                lastValue = nums[i];
+            } else {
+                lastValue += nums[i];
+            }
+            if (maxValue < lastValue) {
+                maxValue = lastValue;
+            }
+        }
+        
+        return maxValue;
+    }
+};
+
+O(n)解法
+
