@@ -1,0 +1,55 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* mergeTwoLists(ListNode* l1, ListNode* l2) {
+        if (! l1) return l2;
+        if (! l2) return l1;
+        
+        ListNode* head;
+        ListNode* current_node;
+        
+        if (l1->val > l2->val){
+            head = l2;
+            l2 = l2->next;
+        }
+        else{
+            head = l1;
+            l1 = l1->next;
+        }
+        
+        current_node = head;
+        
+        
+        while(l1 && l2){
+            if (l1->val > l2->val){
+                current_node->next = l2;
+                //std::cout << l2->val << '/n';
+                l2 = l2->next;
+            }
+            else{
+                current_node->next = l1;
+                l1 = l1->next;
+            }
+            current_node = current_node->next;
+        }
+        
+        if (! l1){
+            current_node->next = l2;
+        }
+        else{
+            current_node->next = l1;
+        }
+        
+        return head;
+    }
+};
+边界条件判断
+Runtime: 4 ms, faster than 98.92% of C++ online submissions for Merge Two Sorted Lists.
+Memory Usage: 9 MB, less than 44.26% of C++ online submissions for Merge Two Sorted Lists.
