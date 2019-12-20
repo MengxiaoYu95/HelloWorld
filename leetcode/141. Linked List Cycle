@@ -1,0 +1,38 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    bool hasCycle(ListNode *head) {
+        ListNode *fast_point;
+        ListNode *slow_point;
+        if (! head) return false;
+        fast_point = head;
+        slow_point = head;
+        while(1){
+            if (fast_point->next){
+                fast_point = fast_point->next;
+                if (fast_point == slow_point) return true;
+            }
+            else{
+                return false;
+            }
+            if (fast_point->next){
+                fast_point = fast_point->next;
+                if (fast_point == slow_point) return true;
+            }
+            else{
+                return false;
+            }
+            slow_point = slow_point->next;
+        }
+    }
+};
+双指针 省空间/ hash map会更快可能？但是都是 O(n)的时间复杂度
+Runtime: 12 ms, faster than 73.91% of C++ online submissions for Linked List Cycle.
+Memory Usage: 9.6 MB, less than 100.00% of C++ online submissions for Linked List Cycle.
