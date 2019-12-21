@@ -1,0 +1,62 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode *detectCycle(ListNode *head) {
+        ListNode *fast_point;
+        ListNode *slow_point;
+        if (! head) return NULL;
+        fast_point = head;
+        slow_point = head;
+        while(1){
+            if (fast_point->next){
+                fast_point = fast_point->next;
+                if (fast_point == slow_point) break;
+            }
+            else{
+                return NULL;
+            }
+            if (fast_point->next){
+                fast_point = fast_point->next;
+                if (fast_point == slow_point) break;
+            }
+            else{
+                return NULL;
+            }
+            slow_point = slow_point->next;
+        }
+        
+        int index = 1;
+        slow_point = slow_point->next;
+        
+        ListNode *judge_point;
+        judge_point = head->next;
+        while(slow_point != fast_point){
+            slow_point = slow_point->next;
+            index += 1;
+            judge_point = judge_point->next;
+        }
+        while(head != judge_point){
+            head = head->next;
+            judge_point = judge_point->next;
+        }
+        return head;
+        
+
+    }
+};
+
+
+Runtime: 12 ms, faster than 76.76% of C++ online submissions for Linked List Cycle II.
+Memory Usage: 9.6 MB, less than 100.00% of C++ online submissions for Linked List Cycle II.
+
+先仿照141题，判断有无cycle，然后一个指针停止，另一个继续走完一圈获得圈的周长
+
+此时已知周长的情况下，让相差周长位数的两个指针（同速起始位置不同，一个从head一个从 head+周长）出发，相遇点即为cycle的起始点
+        
