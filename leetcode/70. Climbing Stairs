@@ -1,0 +1,30 @@
+#include <vector>
+        
+class Solution {
+public:
+    std::vector<int> numbers;
+    int climbStairs(int n) {
+        numbers.assign(n+1, 0);
+        return recurrence(n);
+    }
+    
+    int recurrence(int n) {
+        if (n==1 or n==0){
+            return 1;
+        }
+        if(numbers[n]==0){
+            int result;
+            result = (recurrence(n-1)+recurrence(n-2));
+            numbers[n] = result;
+            return result;
+        }
+        else{
+            return numbers[n];
+        }
+
+    }
+};
+
+
+Runtime: 0 ms, faster than 100.00% of C++ online submissions for Climbing Stairs.
+Memory Usage: 8.6 MB, less than 20.59% of C++ online submissions for Climbing Stairs.
