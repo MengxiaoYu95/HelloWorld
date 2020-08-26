@@ -1,0 +1,2 @@
+使用 std::regex_replace(s, e, f, std::regex_constants::format_sed); 来进行正则替换
+其中s是目标字符串,e是要替换内容得正则表达式，f为将会替换成得string
