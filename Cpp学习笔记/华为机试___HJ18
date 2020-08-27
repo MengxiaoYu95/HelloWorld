@@ -1,0 +1,177 @@
+#include <iostream>
+#include <cstring>
+#include <vector>
+
+std::string dec_to_bin(int num){
+    std::string result;
+    while( num ){
+        if ( num%2 == 0){
+            result.insert(0,"0");
+        }
+        else {
+            result.insert(0,"1");
+        }
+        num = num/2;
+    }
+
+    while( result.length() < 8 ){
+        result.insert(0,"0");
+    }
+
+    return result;
+
+}
+
+int main(){
+
+    int A,B,C,D,E,F,G;
+    A=B=C=D=E=F=G=0;
+
+    std::string str;
+
+    while( std::cin >> str){
+        int fault = 0;
+        int len =  str.length();
+        std::string ip;
+        std::string subnet;
+        std::string temp;
+
+        for ( int i = 0; i < len ; i++){
+            if ( str[i] == '~' ){
+                subnet = str.substr(i+1);
+                ip = str.substr(0,i);
+            }
+        }
+
+        std::vector<std::string> sub_subnet;
+        int land_mark = 0;
+
+        for ( int i = 0; i < subnet.length() ; i++){
+            if ( subnet[i] == '.' ){
+                temp = subnet.substr(land_mark,i-land_mark);
+                //std::cout << " temp = " << temp;
+                if ( temp == ""){
+                    fault = 1;
+                    F += 1;
+                }
+                land_mark = i+1;
+                sub_subnet.push_back(temp);
+            }
+        }
+
+        temp = subnet.substr(land_mark);
+        sub_subnet.push_back(temp);
+        land_mark = 0;
+        int zero = 0;
+        int one = 0;
+        for ( auto it = sub_subnet.begin(); it != sub_subnet.end(); it++){
+            temp = dec_to_bin(std::stoi(*it));
+            //std::cout << temp << ' ';
+            for ( int i = 0 ; i < temp.length() ; i++ ){
+                if ( temp[i] == '1' ){
+                    one += 1;
+                }
+                else {
+                    zero += 1;
+                }
+                
+                if ( temp[i] == '1' && land_mark == 1 ){
+                    F += 1;
+                    fault = 1;
+                    break;
+                }
+                else if ( temp[i] == '0' ){
+                    land_mark = 1;
+                }
+            }
+
+
+            if ( fault == 1){
+                break;
+            }
+
+            //std::cout << dec_to_bin(std::stoi(*it)) << ' ';
+            //std::cout << *it << ' ';
+        }
+
+        if ( zero == 0 or one == 0 ){
+            if (fault == 0){
+                F += 1;
+                fault =1;
+            } 
+
+        }
+        std::vector<std::string> sub_ip;
+        land_mark = 0;
+
+        for ( int i = 0; i < ip.length() ; i++){
+            if ( ip[i] == '.' ){
+                temp = ip.substr(land_mark,i-land_mark);
+                if ( temp == ""){
+                    fault = 1;
+                    F += 1;
+                }
+                land_mark = i+1;
+                sub_ip.push_back(temp);
+            }
+        }
+
+        if ( fault != 1){
+
+
+
+
+            if ( stoi(sub_ip[0]) >= 1 && stoi(sub_ip[0]) <= 126  ){
+                A += 1;
+            }
+            else if ( stoi(sub_ip[0]) >= 128 && stoi(sub_ip[0]) <= 191  ){
+                B += 1;
+            }
+            else if ( stoi(sub_ip[0]) >= 192 && stoi(sub_ip[0]) <= 223  ){
+                C += 1;
+            }
+            else if ( stoi(sub_ip[0]) >= 224 && stoi(sub_ip[0]) <= 239  ){
+                D += 1;
+            }
+            else if ( stoi(sub_ip[0]) >= 240 && stoi(sub_ip[0]) <= 255  ){
+                E += 1;
+            }
+
+            if ( stoi(sub_ip[0]) == 10 ){
+                G += 1;
+            }
+            else if ( stoi(sub_ip[0]) == 172 && stoi(sub_ip[1]) >= 16 && stoi(sub_ip[0]) <= 31){
+                G += 1;
+            }
+            else if ( stoi(sub_ip[0]) == 192 && stoi(sub_ip[1]) == 168 ){
+                G += 1;
+            }
+        }
+        
+
+
+    }
+    std::cout << A << ' ' <<  B << ' ' << C << ' ' << D << ' ' << E << ' ' << F << ' ' << G << '\n';
+
+}
+
+//10.70.44.68~255.254.255.0
+//10.0.0.0~10.255.255.255
+//
+//172.16.0.0～172.31.255.255
+//
+//192.168.0.0～192.168.255.255
+
+
+
+
+//A类地址1.0.0.0~126.255.255.255;
+//
+//B类地址128.0.0.0~191.255.255.255;
+//
+//C类地址192.0.0.0~223.255.255.255;
+//
+//D类地址224.0.0.0~239.255.255.255；
+//
+//E类地址240.0.0.0~255.255.255.255
+
