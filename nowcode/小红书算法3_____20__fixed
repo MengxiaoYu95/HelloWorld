@@ -1,0 +1,72 @@
+#include <iostream>
+#include <vector>
+
+
+int main(){
+
+    int i;
+    int j;
+    std::vector<int> a;
+
+//    int number = 100;
+//    for ( i = number ; i > 0 ; i--){
+//        std::cout << rand()%100 << ' ';
+//    }
+    while ( std::cin >> i){
+        while ( i > 0 ){
+            std::cin >> j;
+            i -= 1;
+            a.push_back(j);
+        }
+//        for ( auto it = a.begin(); it != a.end() ; it++){
+//            std::cout << *it << ' ';
+//        }
+        std::vector<int> sums;
+        std::vector<int> member_count;
+
+
+        for ( int i = 0; i <= a.size() ; i++){
+            sums.push_back(0);
+            member_count.push_back(0);
+        }
+
+        if( a.size() == 1 ){
+            sums[0] = a[0];
+            member_count[0] = 1;
+        }
+        else if ( a.size() >= 2){
+            sums[0] = a[0];
+            member_count[0] = 1;
+            if ( a[0] > a[1]){
+                sums[1] = a[0];
+                member_count[1] = 1;
+            }
+            else{
+                sums[1] = a[1];
+                member_count[1] = 1;
+            }
+        }
+
+        if ( a.size() >= 3 ){
+            for ( int i = 2 ; i < a.size() ; i++ ){
+                if ( sums[i-2] + a[i] > sums[i-1]){
+                    sums[i] = sums[i-2] + a[i];
+                    member_count[i] = member_count[i-2] + 1;
+                }
+                else{
+                    sums[i] = sums[i-1];
+                    member_count[i] = member_count[i-1];
+                }
+            }
+
+            std::cout << sums[a.size()-1] << ' ' << member_count[a.size()-1] << '\n';
+
+        }
+
+
+
+    }
+
+
+
+}
