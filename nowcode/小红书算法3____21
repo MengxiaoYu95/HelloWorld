@@ -1,0 +1,89 @@
+#include <iostream>
+#include <vector>
+#include <map>
+#include <set>
+#include <tuple>
+
+
+
+
+int main(){
+
+    int i,j,k;
+    int length = 0;
+    int height = 0;
+    std::vector<int> a;
+    std::vector<std::tuple<int,int>> treasures;
+
+    while ( std::cin >> i){
+        while ( i > 0 ){
+            std::cin >> j;
+            std::cin >> k;
+            if ( j > length ){
+                length = j;
+            }
+            if ( k > height ){
+                height = k;
+            }
+            treasures.emplace_back(std::make_tuple(j,k));
+            i -= 1;
+        }
+
+        int selling[length+1][height+1] ;
+
+        std::cout << length <<' ' << height <<'\n';
+
+        for ( int p = 0; p < length + 1 ; p++ ){
+            for ( int q = 0 ; q < height + 1 ; q++ ){
+                selling[p][q] = 0;
+            }
+        }
+
+        for ( auto it = treasures.begin() ; it != treasures.end() ; it++ ){
+            int x = std::get<0>(*it);
+            int y = std::get<1>(*it);
+            selling[x][y] = 1;
+        }
+
+
+
+        int largest_amount = 0;
+        for ( int p = 1; p < length + 1 ; p++ ){
+            for ( int q = 1 ; q < height + 1 ; q++ ){
+
+                if (selling[p][q - 1] > selling[p - 1][q]) {
+                    selling[p][q] += selling[p][q - 1];
+                } else {
+                    selling[p][q] += selling[p - 1][q];
+                }
+
+
+
+                if ( selling[p][q] > largest_amount ){
+                    largest_amount = selling[p][q];
+                }
+            }
+        }
+
+        for ( int p = 0; p < length + 1 ; p++ ){
+            for ( int q = 0 ; q < height + 1 ; q++ ){
+                if( p <= 1 ) std::cout << selling[p][q] << ' ';
+            }
+            if( p <= 1 ) std::cout << '\n';
+        }
+
+        for ( int p = 0; p < length + 1 ; p++ ){
+            for ( int q = 0 ; q < height + 1 ; q++ ){
+               if( p <= 20) std::cout << selling[q][p] << ' ';
+            }
+                if(p <= 20) std::cout << '\n';
+        }
+        std::cout << largest_amount << '\n';
+
+
+    }
+
+
+
+}
+
