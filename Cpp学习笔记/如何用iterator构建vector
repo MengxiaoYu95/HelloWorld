@@ -1,0 +1,6 @@
+std::vector<int>::const_iterator first_begin = nums.begin() + 2;
+std::vector<int>::const_iterator first_end = nums.end();
+
+//std::cout << *first_begin << ' ';
+
+std::vector<int> first_path(first_begin,first_end);
