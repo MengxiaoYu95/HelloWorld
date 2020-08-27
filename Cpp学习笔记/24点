@@ -1,0 +1,193 @@
+#include <iostream>
+#include <regex>
+#include <string>
+#include <vector>
+
+
+int caculate(std::vector<double> nums){
+    float result[4][4][4];  // + - * /
+    //float a,b,c;
+    char opeartor[] = "+-*/";
+    for ( int i = 0 ; i <= 3 ; i++ ){
+        for ( int j = 0 ; j <= 3 ; j++ ) {
+            for (int k = 0; k <= 3; k++) {
+                if (k == 0) {
+                    result[i][j][k] = nums[2] + nums[3];
+                } else if (k == 1) {
+                    result[i][j][k] = nums[2] - nums[3];
+                } else if (k == 2) {
+                    result[i][j][k] = nums[2] * nums[3];
+                } else {
+                    result[i][j][k] = nums[2] / nums[3];
+                }
+            }
+            for (int k = 0; k <= 3; k++) {
+                if (j == 0) {
+                    result[i][j][k] += nums[1];
+                } else if (j == 1) {
+                    result[i][j][k] -= nums[1];
+                } else if (j == 2) {
+                    result[i][j][k] *= nums[1];
+                } else {
+                    result[i][j][k] /= nums[1];
+                }
+            }
+        }
+        for ( int j = 0 ; j <= 3 ; j++ ) {
+            for (int k = 0; k <= 3; k++) {
+                if (i == 0) {
+                    result[i][j][k] += nums[0];
+                    //std::cout << result[i][j][k] << ' ';
+                } else if (i == 1) {
+                    result[i][j][k] -= nums[0];
+                    //std::cout << result[i][j][k] << ' ';
+                } else if (i == 2) {
+                    result[i][j][k] *= nums[0];
+                    //std::cout << result[i][j][k] << ' ';
+                } else {
+                    result[i][j][k] /= nums[0];
+                    //std::cout << result[i][j][k] << ' ';
+                }
+
+                if ( result[i][j][k] == 24 ){
+                    std::cout << nums[0] << ' ' << nums[1]  << ' ' << nums[2]  << ' ' <<  nums[3]  << '\n';
+                    std::cout << opeartor[i] << ' ' << opeartor[j] << ' ' << opeartor[k] << '\n';
+                }
+            }
+        }
+    }
+
+    int sub_result[2][2][2];
+
+    for ( int i = 0 ; i <= 1 ; i++ ){
+        for ( int j = 0 ; j <= 1 ; j++ ) {
+            for ( int k = 0; k <= 1; k++ ) {
+                if (k == 0) {
+                    sub_result[i][j][k] = nums[2] + nums[3];
+                }
+                else{
+                    sub_result[i][j][k] = nums[2] - nums[3];
+                }
+            }
+            for ( int k = 0; k <= 1; k++ ) {
+                if ( i == 0 ){
+                    if ( j == 0 ){
+                        sub_result[i][j][k] = sub_result[i][j][k] * ( nums[0] + nums[1] );
+                        //std::cout << sub_result[i][j][k] << ' ';
+                    }
+                    else {
+                        sub_result[i][j][k] = sub_result[i][j][k] / ( nums[0] + nums[1] );
+                        //std::cout << sub_result[i][j][k] << ' ';
+                    }
+                }
+                else{
+                    if ( j == 0 ){
+                        sub_result[i][j][k] = sub_result[i][j][k] * ( nums[0] - nums[1] );
+                        //std::cout << sub_result[i][j][k] << ' ';
+                    }
+                    else {
+                        sub_result[i][j][k] = sub_result[i][j][k] / ( nums[0] - nums[1] );
+                        //std::cout << sub_result[i][j][k] << ' ';
+                    }
+                }
+
+                if ( sub_result[i][j][k] == 24 ){
+                    std::cout << "mode2 " << nums[0] << ' ' << nums[1]  << ' ' << nums[2]  << ' ' <<  nums[3]  << '\n';
+                    std::cout << opeartor[i] << ' ' << opeartor[j+2] << ' ' << opeartor[k] << '\n';
+                    std::cout << nums[2] 
+                }
+            }
+
+
+        }
+
+
+    }
+
+
+    return 0;
+}
+
+
+int main(){
+    std::string input;
+    std::vector<std::string> card;
+    int flag = 0;
+    while( std::cin >> input ){
+        card.push_back(input);
+        //std::cout << card[flag]  << '\n';
+
+        if ( flag == 3 ){
+            std::cout << "start" << '\n';
+            std::vector<double> nums;
+            for ( int i = 0 ; i <= 3 ; i++ ){
+                if ( card[i] == "JOKER" or card[i] == "joker"){
+                    std::cout<< "ERROR" << '\n';
+                    break;
+                }
+                else if( card[i] == "J"){
+                    nums.push_back(11);
+                }
+                else if( card[i] == "Q"){
+                    nums.push_back(12);
+                }
+                else if( card[i] == "K"){
+                    nums.push_back(13);
+                }
+                else if( card[i] == "A" ){
+                    nums.push_back(1);
+                }
+                else {
+                    nums.push_back(stoi( card[i] ));
+                }
+            }
+
+            float result,a,b,c;
+
+            for ( int i = 0; i <= 3 ; i++ ){
+                std::cout << nums[i] << ' ';
+            }
+            std::cout << '\n';
+
+
+            for ( int i = 0; i < 4 ; i++ ){
+                double temp = nums[i];
+                nums[i] = nums[0];
+                nums[0] = temp;
+                for ( int j = 1; j < 4 ; j++ ){
+                    double temp_1 = nums[j];
+                    nums[j] = nums[1];
+                    nums[1] = temp_1;
+                    for ( int k = 2; k < 4 ; k++ ){
+                        double temp_2 = nums[k];
+                        nums[k] = nums[1];
+                        nums[1] = temp_2;
+//                        for ( auto it = nums.begin() ; it != nums.end(); it++){
+//                            std::cout << *it << ' ';
+//                        }
+//                        std::cout << '\n';
+                        caculate(nums);
+                    }
+
+                }
+            }
+
+
+
+
+            card.clear();
+
+
+
+
+            flag = 0;
+            continue;
+        }
+        flag += 1;
+
+
+    }
+}
+
+//TJm5Jpgv9gokaSPV4xa77ZeT7W08RI7G7DIp77k9Hx8zM9VfrK47qL05VaC6uf8P1p0EMu259D1Oj0P4lFi36MM
+//ylV2Zv83sVqf1LF0P6soqMYF1aAv0i61iy0oScauz4Wv6HGo30C9v1xFus8e9JZ0VG6JF1680h2Zk3OV26ZYjg5YQHT09ig
