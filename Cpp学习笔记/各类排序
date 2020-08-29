@@ -49,3 +49,29 @@ int main(){
         std::cout << nums[i] << ' ';
     }
 }
+
+
+#include <vector> //插入排序。。。每次假定前面是已排序好的，找到位置插入后一个
+#include <iostream>
+
+int main(){
+    std::vector<int> nums = {5,4,6,8,7,9,1,2,3};
+
+    int len = nums.size();
+    int min,index;
+
+    for ( int i = 0 ; i < len ; i++ ){
+        int j = i;
+        int temp = nums[i];
+        while ( nums[j] < nums[j-1] ){
+            temp = nums[j-1];
+            nums[j-1] = nums[j];
+            nums[j] = temp;
+            j--;
+        }
+    }
+
+    for ( int i = 0 ; i < len ; i++ ){
+        std::cout << nums[i] << ' ';
+    }
+}
