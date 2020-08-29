@@ -1,0 +1,22 @@
+#include <vector>  //冒泡排序，从后往前更新，每次比较两个，如果较小就互换，第一次0-i，第二次1-i。。。以此类推，复杂度为N^2
+#include <iostream>
+
+int main(){
+    std::vector<int> nums = {5,4,6,8,7,9,1,2,3};
+
+    int len = nums.size();
+
+    for ( int i = 0 ; i < len ; i++ ){
+        for ( int j = len - 1; j >= i ; j-- ){
+            if ( nums[j] < nums[j-1] ){
+                int temp = nums[j-1];
+                nums[j-1] = nums[j];
+                nums[j] = temp;
+            }
+        }
+    }
+
+    for ( int i = 0 ; i < len ; i++ ){
+        std::cout << nums[i] << ' ';
+    }
+}
