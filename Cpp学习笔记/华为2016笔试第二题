@@ -1,0 +1,92 @@
+#include <iostream>  //要学会怎么使用std::sort以及set自带的compare operator进行排序
+#include <map>
+#include <vector>
+#include <tuple>
+#include <set>
+
+
+
+struct set_compare {
+    template <typename T>
+    bool operator() (const T& one, const T& two) const {
+        std::tuple<int,int> t_one,t_two;
+        t_one = std::get<1>(one);
+        t_two = std::get<1>(two);
+        if ( std::get<1>(t_one) > std::get<1>(t_two) ){
+            return true;
+        }
+        else if (std::get<1>(t_one) == std::get<1>(t_two)){
+            if (std::get<0>(t_one) < std::get<0>(t_two)){
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+        else{
+            return false;
+        }
+    }
+};
+
+int main(){
+    std::string input,nums;
+    std::map<std::string,std::tuple<int,int>> hash;
+    int count = 0;
+    while(std::cin >> input){
+        std::cin >> nums;
+        input += ' ';
+        input += nums;
+        count += 1;
+        int index = 0;
+        for( int i = 0; i < input.size() ; i++ ){
+            if ( input[i] == '\\'){
+                index = i;
+            }
+        }
+
+        std::string file_name = input.substr(index + 1);
+
+        if ( count != 0 ){
+            if( hash.find(file_name) != hash.end() ){
+                int order = std::get<0>(hash[file_name]);
+                int sum = std::get<1>(hash[file_name]);
+                hash[file_name] = std::make_tuple(order,sum+1);
+            }
+            else{
+                hash[file_name] = std::make_tuple(count,1);
+            }
+        }
+
+    }
+
+    std::set<std::pair<std::string,std::tuple<int,int>>,set_compare> info;
+    for ( auto it = hash.begin();it != hash.end(); it++){
+        std::pair<std::string,std::tuple<int,int>> temp = std::make_pair(it->first,it->second);
+        info.insert(temp);
+    }
+    count = 0;
+    for ( auto it = info.begin() ; it != info.end() ;it ++){
+        count += 1;
+        if( count == 9){
+            break;
+        }
+        std::string name = std::get<std::string>(*it);
+        int counting = std::get<1>(std::get<1>(*it));
+        if(name.find(" ")<=16) {
+            std::cout << name << ' ' << counting << '\n';
+        }
+        else{
+            name = name.substr(name.find(" ")-16);
+            std::cout << name << ' ' << counting << '\n';
+        }
+    }
+    std::cout << '\n';
+
+
+
+   // std::cout << typeid(hash.begin()).name();
+
+}
+//aa1.txt 2 14 aa3.txt 1 13 aa1.txt 1 12 aa2.txt 1 12 aa3.txt 3 11 aa3.txt 2 11 aa2.txt 3 10 aa1.txt 3 9
+//aa1.txt 2 14 aa3.txt 1 13 aa1.txt 1 12 aa2.txt 1 12 aa3.txt 3 11 aa3.txt 2 11 aa2.txt 3 10 aa1.txt 3 9
