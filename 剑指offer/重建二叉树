@@ -1,0 +1,52 @@
+/**
+ * Definition for binary tree
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+#include <algorithm>
+class Solution { //这么简单的题做半天草草草草草草
+public:
+    TreeNode* reConstructBinaryTree(vector<int> pre,vector<int> vin) {
+      if ( pre.empty() or vin.empty() ) {
+           return nullptr;
+       }
+
+        TreeNode* root = new TreeNode(pre[0]);
+        //root->val = pre[0];
+        std::vector<int> left,right;
+
+        int flag = 0;
+        for( auto it = vin.begin(); it != vin.end(); it++){
+            if ( flag == 0 ){
+                if ( *it != pre[0] ){
+                    left.emplace_back(*it);
+                }
+                else {
+                    flag = 1;
+                }
+            }
+            else{
+                right.emplace_back(*it);
+            }
+        }
+
+        std::vector<int> pleft,pright;
+        for( auto it = pre.begin()+1; it != pre.end(); it++){
+            if ( find(left.begin(),left.end(),*it) != left.end() ){
+                pleft.emplace_back(*it);
+            }
+            else{
+                pright.emplace_back(*it);
+            }
+        }
+
+        root->left = reConstructBinaryTree(pleft,left);
+        root->right = reConstructBinaryTree(pright,right);
+
+        return root;
+    }
+};
