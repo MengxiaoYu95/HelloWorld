@@ -1,0 +1,27 @@
+class Solution { //先确定空格个数，之后从后往前遍历，这样每个字符只需要移动一次
+public:
+	void replaceSpace(char *str,int length) {
+        int blank = 0;
+        for ( int i = 0; i < length ; i++){
+            if ( *(str+i) == ' ' ){
+                blank += 1;
+            }
+        }
+        if (blank == 0){
+            return;
+        }
+        int new_length = 2*blank + length;
+        for ( int i = length-1; i >= 0; i--){
+            if ( *(str+i) != ' ' ){
+                *(str+i+2*blank) = *(str+i);
+            }
+            else{
+                *(str+i+(blank-1)*2) = '%';
+                *(str+i+1+(blank-1)*2) = '2';
+                *(str+i+2+(blank-1)*2) = '0';
+                blank--;
+            }
+        }
+        
+	}
+};
