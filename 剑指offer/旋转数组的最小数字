@@ -1,0 +1,31 @@
+class Solution {//先确定循环条件以及操作再开始写
+public:
+    int minNumberInRotateArray(vector<int> rotateArray) {
+        if ( rotateArray.empty() ) return 0;
+        
+        int left,right,mid,temp;
+       
+        right = rotateArray.size() - 1;
+        left = 0;
+        mid = (right-left)/2;
+        
+        while (left < right){
+            if(right-left==1){
+                mid = right;
+                break;
+            }
+            mid = left+(right-left)/2;
+            
+            if ( rotateArray[mid] >= rotateArray[left] ){
+                left = mid;
+            }
+            if( rotateArray[right] >= rotateArray[mid] ){
+                right = mid;
+            }
+        }
+        
+        return rotateArray[mid];
+
+
+    }
+};
