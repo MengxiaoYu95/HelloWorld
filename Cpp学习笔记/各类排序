@@ -144,3 +144,98 @@ void quick_sort(std::vector<int>::iterator first, std::vector<int>::iterator las
 
 
 }
+
+
+#include <vector> //归并排序，分治法，每次拆成更小的区块然后排序合并  
+#include <iostream>
+
+void merge(std::vector<int>::iterator first, std::vector<int>::iterator last);
+void merge_process(std::vector<int>::iterator first, std::vector<int>::iterator last);
+
+
+int main(){
+    std::vector<int> nums = {5,4,6,8,7,9,1,2,3};
+    auto first = nums.begin();
+    auto last = nums.end() - 1;
+
+    merge_process(first,last);
+
+    for ( auto it = nums.begin() ; it != nums.end() ; it++ ){
+        std::cout << *it << ' ';
+    }
+
+}
+//5,4,6,8,7,9,1,2,3
+
+void merge(std::vector<int>::iterator first,std::vector<int>::iterator mid, std::vector<int>::iterator last){
+
+    int flag = 0;
+    auto land_mark = first;
+    auto second = mid + 1;
+
+    std::vector<int> container;
+    while ( 1 ){
+        if ( *first < *second ){
+            container.emplace_back(*first);
+            if ( first == mid) {
+                flag = 1;
+                break;
+            };
+            first += 1;
+        }
+        else{
+
+            container.emplace_back(*second);
+            if ( second == last ) {
+                flag = 2;
+                break;
+            }
+            second += 1;
+        }
+    }
+
+
+    if ( flag == 1 ){
+        while( 1 ){
+            container.emplace_back( *second );
+            if ( second == last ) break;
+            second += 1 ;
+        }
+    }
+    else {
+        while ( 1 ){
+            container.emplace_back( *first );
+            if ( first == mid) break;
+            first += 1;
+        }
+    }
+
+
+    for ( auto it = container.begin() ; it != container.end() ; it++ ){
+        *land_mark = *it;
+        land_mark += 1;
+    }
+}
+
+void merge_process(std::vector<int>::iterator first, std::vector<int>::iterator last){
+    if ( last == first ){
+        return;
+    }
+    if ( ( last - first ) == 1 ){
+        if ( *first < *last ){
+            return;
+        }
+        else {
+            int temp = *first;
+            *first = *last;
+            *last = temp;
+            return;
+        }
+    }
+
+
+    auto mid = first + (last - first)/2;
+    merge_process(first,mid);
+    merge_process(mid+1,last);
+    merge(first,mid,last);
+}
