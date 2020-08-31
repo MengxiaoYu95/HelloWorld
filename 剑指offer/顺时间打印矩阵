@@ -1,0 +1,43 @@
+class Solution { //////我他妈写的什么垃圾。。。
+public:
+    vector<int> printMatrix(vector<vector<int> > matrix) {
+        vector<int> result;
+        int length,height,mode;
+        mode = 0;
+        height = matrix.size();
+        length = matrix[0].size();
+        
+        if (length == 0 or height == 0){
+            return result;
+        }
+        
+  
+        
+        int i,j,turn;
+        i = j = turn = 0;
+        
+
+        while(turn != height && turn != length){
+            for ( int p = turn ; p <= length - 1 - turn ;p++){
+                result.emplace_back(matrix[turn][p]);
+            }
+            if ( result.size() == height*length) break;
+            for ( int p = turn+1 ; p <= height - 1 - turn ;p++){
+                result.emplace_back(matrix[p][length-turn-1]);
+            }
+            if ( result.size() == height*length) break;
+            for ( int p = length-turn-2 ; p >= turn ;p--){
+                result.emplace_back(matrix[height-turn-1][p]);
+            }
+            if ( result.size() == height*length) break;
+            for ( int p = height - turn -2 ; p >= turn + 1; p--){
+                result.emplace_back(matrix[p][turn]);
+            }
+            if ( result.size() == height*length) break;
+            turn++;
+            
+        }
+        return result;
+        
+    }
+};
