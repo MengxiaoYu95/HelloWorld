@@ -1,0 +1,120 @@
+class Solution { //回溯回溯回溯
+public:
+
+    void solveSudoku(vector<vector<char>>& board) {
+
+        int my_board[9][9];
+
+        std::stack<std::pair<int,int>> path;
+
+        int rol[9][10];
+        int col[9][10];
+        int matrix[9][10];
+        for( int i = 0 ; i < 9 ; i++ ){
+            for ( int j = 0 ; j <= 9 ; j++ ){
+                rol[i][j] = 0;
+                col[i][j] = 0;
+                matrix[i][j] = 0;
+            }
+        }
+
+        for( int i = 0; i < 9 ; i++ ){
+            for ( int j = 0 ; j < 9 ; j++ ){
+                if ( board[i][j] == '.'){
+                    my_board[i][j] = -1;
+                }
+                else{
+                    int num = board[i][j] - '0';
+                    my_board[i][j] = num;
+                    rol[i][num] = 1;
+                    col[j][num] = 1;
+                    int seq = (i/3)*3 + j/3;
+                    matrix[seq][num] = 1;
+                }
+            }
+        }
+
+        int i,j;
+        i = j = 0;
+
+        while( i < 9 ){
+            int j = 0;
+            while ( j < 9 ){
+                if ( board[i][j] == '.' && my_board[i][j] == -1 ){//填空位
+                    
+                    for ( int k = 1 ; k <= 9 ; k++){ //从0-9判断
+                        int seq = (i/3)*3 + j/3;
+                        if ( rol[i][k] != 1 && col[j][k] != 1 && matrix[seq][k] != 1){
+                            my_board[i][j] = k;
+                            rol[i][k] = col[j][k] = matrix[seq][k] = 1;
+
+                            path.push(std::make_pair(i,j));//存入改动路径
+
+                            break;
+                        }
+                    }
+
+                    if ( my_board[i][j] == -1 ){  //假如碰到死路
+                    
+                        i = std::get<0>(path.top());
+                        j = std::get<1>(path.top());
+                        path.pop();
+                        continue;
+                    }
+                }
+                else if(board[i][j] == '.' && my_board[i][j] != -1 ){//改动已填过的
+                    int change = 0; //看是否有改动
+                    for ( int k = my_board[i][j] ; k <= 9 ; k++){
+                        int seq = (i/3)*3 + j/3;
+                        if ( rol[i][k] != 1 && col[j][k] != 1 && matrix[seq][k] != 1){
+                            int pre = my_board[i][j];
+                            rol[i][pre] = col[j][pre] = matrix[seq][pre] = 0;//一定要记得把之前的🌲他妈个逼的删掉啊卧槽，花了2小时找bug，吐了
+                            my_board[i][j] = k;
+                            rol[i][k] = col[j][k] = matrix[seq][k] = 1;
+
+                            path.push(std::make_pair(i,j)); //存入改动路径
+
+                            change = 1;
+                            break;
+                        }
+                    }
+                    if ( change == 0 ){ //如果没有改动则说明走到死路
+                        int seq = (i/3)*3 + j/3;
+                        int now = my_board[i][j];
+
+                        my_board[i][j] = -1; //把该空位还原
+
+                        rol[i][now] = col[j][now] = matrix[seq][now] = 0;
+                        i = std::get<0>(path.top());
+                        j = std::get<1>(path.top());
+                        path.pop();
+
+                        continue;
+                    }
+                    
+                }
+                j += 1;
+            }
+            i += 1;
+        }
+
+        for ( int i = 0 ; i < 9 ; i++ ){
+            for ( int j = 0 ; j < 9 ; j++ ){
+                std::cout << my_board[i][j] << ' ';
+            }
+            std::cout << '\n';
+        }
+        for ( int i = 0 ; i < 9 ; i++ ){
+            for ( int j = 0 ; j < 9 ; j++ ){
+                if (board[i][j] == '.'){
+                    board[i][j] = '0' + my_board[i][j];
+                }
+            }
+            std::cout << '\n';
+        }
+
+
+        return ;
+        
+    }
+};
