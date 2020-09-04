@@ -1,0 +1,40 @@
+#include <iostream>  //下等人写法
+#include <vector> 
+
+int main(){
+    int total,capacity; //读入 $总数 和 $背包容量
+    std::cin >> total;
+    int count = total;
+    std::cin >> capacity;
+    int value,weight;
+    std::vector<int> values,weights;
+    while ( total > 0 ){ // 按照 $总数 读取 各个物品的 $价值 以及 $质量
+        std::cin >> value;
+        std::cin >> weight;
+        values.emplace_back(value);
+        weights.emplace_back(weight);
+        total -= 1;
+    }
+
+    int matrix[count+1][capacity+1]; //初始化dp矩阵，所有位置都置零，注意行数和列数皆为总数+1
+    for ( int i = 0 ; i <= count ; i++ ){
+        for ( int j = 0 ; j <= capacity ; j++ ){
+            matrix[i][j] = 0;
+        }
+    }
+    
+    int max = 0;
+    for ( int i = 1 ; i <= count ; i++ ){ //循环每个物品
+        for ( int j = weights[i-1] ; j <= capacity; j++ ){ // 直接从j的质量开始判断
+            if ( j - weights[i-1] >= 0 && j - weights[i-1] <= capacity ){ // 判断是否超限
+                matrix[i][j] = ( matrix[i-1][j] > matrix[i-1][j-weights[i-1]] + values[i-1] ) ? matrix[i-1][j] : matrix[i-1][j-weights[i-1]] + values[i-1] ;
+                max = ( matrix[i][j] > max ) ? matrix[i][j] : max;
+            }
+
+        }
+        
+    }
+    std::cout << max << '\n';
+
+
+}
