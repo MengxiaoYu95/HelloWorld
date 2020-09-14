@@ -1,0 +1,14 @@
+__attribute((constructor)) void _before(){
+    std::cout << "before";
+};
+
+
+
+int main(){
+    std::cout << " main";
+
+}
+
+__attribute((desstructor)) void _after(){
+    std::cout << " after";
+};
