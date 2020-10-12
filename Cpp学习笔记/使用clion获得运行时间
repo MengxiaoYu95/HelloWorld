@@ -1,0 +1,29 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <set>
+#include <stdio.h>
+#include <time.h>
+#include <stdlib.h>
+
+
+int main() {
+    long long i = 1000000000;
+    clock_t start = clock();
+    while( i > 0 ){
+        int j = 100000>>1;
+        i--;
+    }
+    clock_t stop = clock();
+    double elapsed = (double) (stop - start) / CLOCKS_PER_SEC;
+    std::cout << elapsed << '\n';
+    i = 1000000000;
+    start = clock();
+    while( i > 0 ){
+        int j = 100000>>1;
+        i--;
+    }
+    stop = clock();
+    elapsed = (double) (stop - start) / CLOCKS_PER_SEC;
+    std::cout << elapsed;
+}
